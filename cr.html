@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CR</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .content {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .point {
+            margin-bottom: 15px;
+        }
+        .point-title {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .point-description {
+            margin-left: 20px;
+        }
+        .objective-function, .optimization-algorithm, .design-variables, .constraints, .implementation-steps {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h2><a href="/">go back</a></h2>
+    </div>
+    <div class="content">
+        <div class="point objective-function">
+            <div class="point-title">1. Objective Function:</div>
+            <div class="point-description">
+                The objective function aims to maximize stiffness while satisfying structural constraints. For a truss, stiffness is often related to minimizing deflection under load. The objective function could be formulated as maximizing stiffness which is inversely related to deflection and weight.
+            </div>
+        </div>
+        <div class="point optimization-algorithm">
+            <div class="point-title">2. Optimization Algorithm:</div>
+            <div class="point-description">
+                Use an optimization algorithm like a gradient-based method or a genetic algorithm. For maximum stiffness, a gradient-based method like the Sequential Quadratic Programming (SQP) algorithm may be suitable.
+            </div>
+        </div>
+        <div class="point design-variables">
+            <div class="point-title">3. Design Variables:</div>
+            <div class="point-description">
+                Design variables include the height of the truss and any other parameters that can be adjusted. Ensure that the optimization algorithm can modify these variables within specified bounds.
+            </div>
+        </div>
+        <div class="point constraints">
+            <div class="point-title">4. Constraints:</div>
+            <div class="point-description">
+                Implement constraints to ensure the truss design meets safety and practical considerations. Constraints may include limits on member sizes, maximum stress, and deflection.
+            </div>
+        </div>
+        <div class="point implementation-steps">
+            <div class="point-title">5. Implementation Steps:</div>
+            <div class="point-description">
+                <ul>
+                    <li>Structural Analysis: Perform a structural analysis to calculate deflection and other relevant parameters based on the current truss design.</li>
+                    <li>Objective Function Evaluation: Evaluate the objective function, considering both deflection and weight.</li>
+                    <li>Gradient Calculation (if using gradient-based method): Compute the gradient of the objective function with respect to the design variables.</li>
+                    <li>Update Design Variables: Adjust the design variables based on the optimization algorithm's guidance.</li>
+                    <li>Check Constraints: Verify if the modified design satisfies the defined constraints.</li>
+                    <li>Iterate: Repeat the process iteratively until convergence is achieved.</li>
+                </ul>
+              <pre>  <code>
+                    clc;
+clear all;
+global E
+global FS
+global Rho
+global YS
+global Allowable_displacement
+global Coordinates
+global ElementCon
+global NumberElement
+global NumberNode
+global Fg
+global U_glob
+
+E = 6900;
+FS = 1.5;
+Rho = 2.77e-5;
+YS = 172;
+Allowable_displacement = 50.8;
+Coordinates = [0 0; 9144 0;18288 0; 18288 9144; 9144 9144;0 9144];
+ElementCon = [1 2; 2 3; 3 4; 4 5; 5 6;2 5; 2 6; 1 5; 3 5; 2 4];
+NumberNode = size(Coordinates,1);
+NumberElement = size(ElementCon,1);
+Kg = zeros(2*NumberNode);
+A = 3.14*ones(1,NumberElement);
+ 
+ForceBC = input('Enter the total number of nodes on which force acts\n');
+    Fg = zeros(2*NumberNode,1);
+    for i = 1:ForceBC
+        fprintf('Enter the Node number on which force %d acts\n',i);
+        NodeFBC = input('');
+        Fnode = input('Enter the x, y component of force in pounds on the node in [Fx;Fy] format\n');
+        Fg((NodeFBC*2)-1:(NodeFBC*2),1) = Fg((NodeFBC*2)-1:(NodeFBC*2),1) + Fnode;
+    end
+U_glob = ones(2*NumberNode,1);
+DisplacementBC = input('Enter the total number of nodes on which displacement constraints are applied\n');
+for i = 1:DisplacementBC
+    NodeDBC = input('Enter the Node ID  = ');
+    U_glob(2*NodeDBC-1:2*NodeDBC) = 0;
+end
+
+b = find(U_glob == 0);
+Fg(b,:) = [];
+
+Fitness = @ObjectiveFunction;
+Constraint = @ConstraintFunction;
+nvars = 10;
+LB= 0.1*A;
+UB = 2*A;
+% opts=gaoptimset('PopulationSize',20,'Generations',200,'StallGenLimit',200,'SelectionFcn', @selectionroulette,'CrossoverFcn',@crossovertwopoint,'Display', 'off','PlotFcns', {@gaplotbestf @gaplotbestindiv});
+opts = optimoptions(@ga,'PlotFcn',{@gaplotbestf,@gaplotbestindiv});
+disp('Working on optimizing');
+[x,fval] = ga(Fitness,nvars,[],[],[],[],LB,UB,Constraint,opts);
+
+function [constraint_ieq,constraint_eq] = ConstraintFunction(A)
+    global E
+    global FS
+    global Rho
+    global YS
+    global Allowable_displacement
+    global Coordinates
+    global ElementCon
+    global NumberElement
+    global NumberNode
+    global Fg
+    global U_glob
+    Kg = zeros(2*NumberNode);
+    for i = 1:NumberElement
+        n1 = ElementCon(i,1);
+        n2 = ElementCon(i,2); 
+        x1 = Coordinates(n1,1);
+        y1 = Coordinates(n1,2);
+        x2 = Coordinates(n2,1);
+        y2 = Coordinates(n2,2);
+
+        L = sqrt((x2-x1)^2+(y2-y1)^2);
+        l = (x2-x1)/L;
+        m = (y2-y1)/L;
+
+        Kl = (E*A(i)/L)*[l^2 l*m -l^2 -l*m;
+                        l*m m^2 -l*m -m^2;
+                        -l^2 -l*m l^2 l*m;
+                        -l*m -m^2 l*m m^2];
+
+        k1 = 2*n1-1; k2 = 2*n1;
+        k3 = 2*n2-1; k4 = 2*n2;
+
+        Kg(k1:k2,k1:k2) = Kg(k1:k2,k1:k2) + Kl(1:2,1:2);
+        Kg(k1:k2,k3:k4) = Kg(k1:k2,k3:k4) + Kl(1:2,3:4);
+        Kg(k3:k4,k1:k2) = Kg(k3:k4,k1:k2) + Kl(3:4,1:2);
+        Kg(k3:k4,k3:k4) = Kg(k3:k4,k3:k4) + Kl(3:4,3:4);
+    end
+    b = find(U_glob == 0);
+    Kg(b,:) = [];
+    Kg(:,b) = [];
+%     Fg(b,:) = [];
+    bb = find(U_glob == 1);
+    Q = Kg\Fg ;
+    Q_disp = zeros(2*NumberNode,1);
+    for i=1:length(bb)
+      Q_disp(bb(i),1) = Q(i,1);
+    end
+    for i=1:NumberElement
+        L(i)=sqrt((Coordinates(ElementCon(i,2),1)-Coordinates(ElementCon(i,1),1))^2+(Coordinates(ElementCon(i,2),2)-Coordinates(ElementCon(i,1),2))^2);
+        l(i)=(Coordinates(ElementCon(i,2),1)-Coordinates(ElementCon(i,1),1))/L(i);
+        m(i)=(Coordinates(ElementCon(i,2),2)-Coordinates(ElementCon(i,1),2))/L(i);
+    end
+    Sigma = zeros(1,NumberElement);
+    for k = 1:NumberElement
+        Sigma(k) = (E/L(k))*[-1 1]*[l(k), m(k),0, 0;0, 0 , l(k), m(k)] * [Q_disp(((ElementCon(k,1)*2)-1):ElementCon(k,1)*2,1);Q_disp(((ElementCon(k,2)*2)-1):ElementCon(k,2)*2,1)];
+    end
+    stress = transpose(Sigma);
+    max_displacement = max(Q_disp);
+    max_stress = max(stress);
+    cstress = max_stress - YS;
+    cstrain = max_displacement - Allowable_displacement;
+    cstress_2 = abs(min(stress)) - YS;
+    constraint_ieq = [cstress,cstress_2];
+    constraint_eq = [];
+end
+
+function [val]= ObjectiveFunction(A)
+    global Rho
+    global Coordinates
+    global ElementCon
+    global NumberElement
+    global NumberNode
+    total_volume = 0;
+    for i = 1:NumberElement
+        element = Coordinates(ElementCon(i,:),:); 
+        length = norm(element(1,:)-element(2,:));
+        volume = length*A(i);
+        total_volume = total_volume + volume;
+    end
+    weight = total_volume * Rho;
+    val = weight;
+end
+
+function plot_model(A)
+    figure()
+    global Coordinates
+    global ElementCon
+    global NumberElement
+    width = round(8*(((A-mean(A))/(max(A)-min(A)))))+ 4;
+    hold on
+    for i =1:size(ElementCon)
+        line = Coordinates(ElementCon(i,:),:);
+        plot(line(:,1),line(:,2),'r','LineWidth',width(i))
+    end
+    for i = 1:NumberElement
+        plot(Coordinates(:,1),Coordinates(:,2),'b*')
+    end
+end
+                </code></pre>
+            </div>
+        </div>
+        <img src="/img.png" alt="Truss Optimization" class="img-fluid" />
+    </div>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

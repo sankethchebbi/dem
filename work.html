@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antenna Design Tool</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="text-center">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h4><a href="/">back</a></h4>
+                <h2 class="mb-4">Automated Antenna Design ISTRAC</h2>
+                <h3></h3>
+
+                <!-- Necessary Elements for Reflector Antenna Design -->
+                <form id="antennaDesignForm">
+                    <div class="form-group">
+                        <label for="reflectorMaterial">Reflector Dish Material:</label>
+                        <input type="text" class="form-control" id="reflectorMaterial" value="Aluminium" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="reflectorShape">Reflector Dish Shape:</label>
+                        <input type="text" class="form-control" id="reflectorShape" value="Parabolic (Space Station)" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportTruss">Support Truss Material:</label>
+                        <input type="text" class="form-control" id="supportTruss" value="Steel" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="mountingType">Mounting Type:</label>
+                        <input type="text" class="form-control" id="mountingType" value="Ground Mount" readonly>
+                    </div>
+
+                    <!-- Antenna Feed Parameters (Assumed Values) -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="frequency">Frequency of Operation:</label>
+                            <input type="number" class="form-control" id="frequency" placeholder="Enter frequency">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="antennaGain">Antenna Gain:</label>
+                            <input type="number" class="form-control" id="antennaGain" placeholder="Enter gain">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                
+                        <div class="form-group col-md-6">
+                            <label for="beamwidth">Beamwidth:</label>
+                        <input type="number" class="form-control" id="beamwidth" placeholder="Enter beamwidth">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="polarization">Polarization Type:</label>
+                        <input type="text" class="form-control" id="polarization" placeholder="Enter polarization">
+                        </div>
+                    </div>
+
+                    <!-- Custom Load Inputs -->
+                    <div class="form-group">
+                        <label for="customLoad">Custom Load (Point Loads on Trusses):</label>
+                        <input type="text" class="form-control" id="customLoad" placeholder="Enter custom loads">
+                    </div>
+
+                    <button type="button" class="btn btn-primary mt-4" onclick="calculateDesign()">Calculate Design</button>
+                </form>
+
+                <!-- Output Card -->
+                <div id="outputCard" class="card mt-4" style="display: none;">
+                    <div class="card-body">
+                        <h5 class="card-title">Design Output</h5>
+                        <p class="card-text" id="outputText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function calculateDesign() {
+            var frequency = document.getElementById("frequency").value;
+            var antennaGain = document.getElementById("antennaGain").value;
+            var beamwidth = document.getElementById("beamwidth").value;
+            var polarization = document.getElementById("polarization").value;
+            var customLoad = document.getElementById("customLoad").value;
+
+            // Perform calculations or call a backend service here
+
+            // For now, just display the values in the output card
+            document.getElementById("outputText").innerText = `Frequency: ${frequency}\nAntenna Gain: ${antennaGain}\nBeamwidth: ${beamwidth}\nPolarization: ${polarization}\nCustom Load: ${customLoad}`;
+            document.getElementById("outputCard").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTRAC</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        h1, h3 {
+            color: #007bff;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 5px 0;
+        }
+        p {
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function checkPassword() {
+            var password = prompt("Please enter the password:");
+    
+            // Replace 'sankethchebbi' with the actual password you want to set
+            if (password === "s") {
+                // Password is correct, show the content
+                document.getElementById("content").style.display = "block";
+            } else {
+                // Password is incorrect, redirect to Google
+                alert("Incorrect password. Redirecting.");
+                window.location.href = "https://www.google.com";
+            }
+        }
+    </script>
+</head>
+<body onload="checkPassword()">
+    <div class="container">
+        <h1 class="mb-4">ISTRAC Project Work</h1>
+        <h3 class="mb-4">Sanketh S Chebbi & Pramuk D.</h3>
+        <p>
+            <a href="/work.html" class="btn btn-primary">work</a>
+            <a href="/note.html" class="btn btn-primary">notes</a>
+            <a href="/timeline.html" class="btn btn-primary">timeline</a>
+            <a href="/cr.html" class="btn btn-primary">CR</a>
+        </p>
+
+        <ul class="list-unstyled"><u>List of References:</u>
+                <li><a href="https://github.com/KittyCAD/text-to-cad-ui" target="_blank">KittyCAD/text-to-cad-ui GitHub Repository</a></li>
+                <li><a href="https://www.nature.com/articles/s41598-022-26398-2" target="_blank">Nature Article on Text-to-CAD UI</a> - Nature article presenting a text-to-CAD UI, possibly exploring the integration of natural language processing with computer-aided design.</li>
+                <li><a href="https://github.com/FollowTheProcess/pymechtest">pymechtest GitHub Repository</a></li>
+                <li><a href="https://followtheprocess.github.io/pymechtest/getting_started/usage.html">pymechtest Documentation</a> - Documentation for pymechtest, providing information on its usage.</li>
+                <li><a href="https://pypi.org/project/pymechtest/">pymechtest on PyPI</a> - PyPI page for pymechtest, a package for mechanical testing simulations in Python.</li>
+                <li><a href="https://pytfm.readthedocs.io/en/latest/">pytfm Documentation</a> - Documentation for pytfm, a Python library for time-frequency analysis.</li>
+                <li><a href="https://cadquery.readthedocs.io/en/latest/">cadquery Documentation</a> - Documentation for cadquery, a Python library for building parametric 3D CAD models.</li>
+                <li><a href="https://www.sciencedirect.com/science/article/pii/S0098300423000122">ScienceDirect Article on Antenna Design</a> - ScienceDirect article on automated antenna design using evolutionary algorithms.</li>
+                <li><a href="https://ieeexplore.ieee.org/document/10102809">IEEE Xplore Article on Antenna Design</a> - IEEE Xplore article focusing on automated antenna design.</li>
+                <li><a href="https://www.researchgate.net/publication/228909002_Automated_Antenna_Design_with_Evolutionary_Algorithms">ResearchGate Article on Antenna Design</a> - ResearchGate article discussing automated antenna design with evolutionary algorithms.</li>
+                <li><a href="https://www.ansys.com/en-in/webinars/automating-hfss-antenna-design-workflows-pyaedt">ANSYS Webinar on HFSS Antenna Design Workflows</a> - ANSYS webinar on automating HFSS antenna design workflows using PyAEDT.</li>
+                <li><a href="https://github.com/topics/antenna-design">GitHub Topics - Antenna Design</a></li>
+                <li><a href="https://github.com/rookiepeng/antenna-models">Antenna Models GitHub Repository</a></li>
+                <li><a href="https://github.com/MHassaanButt/Antenna-design-using-ML">Antenna Design using ML GitHub Repository</a></li>
+                <li><a href="https://github.com/matt-kukla/pyantenna">pyantenna GitHub Repository</a></li>
+                <li><a href="https://github.com/LC-Linkous/AntennaCalculator">AntennaCalculator GitHub Repository</a></li>
+                <li><a href="https://github.com/gbowne1/antenna_calc">antenna_calc GitHub Repository</a></li>
+                <li><a href="https://github.com/OpenMDAO">OpenMDAO GitHub Organization</a></li>
+                <li><a href="https://github.com/FEniCS/dolfinx">dolfinx GitHub Repository</a></li>
+                <li><a href="https://openmdao.org/">OpenMDAO Website</a></li>
+                <li><a href="https://www.mdpi.com/2079-9292/8/12/1506">MDPI Article on Finite Element Computing</a> - MDPI article on finite element computing using dolfinx.</li>
+                <li><a href="https://ieeexplore.ieee.org/abstract/document/1035672">IEEE Xplore Article on Finite Element Computing</a> - IEEE Xplore article on finite element computing with dolfinx.</li>
+                <li>https://github.com/the-beee/Truss-optimization </li>
+                <li>https://www.layopt.com</li>
+                <li>
+                    https://github.com/leo27945875/Python_Stable_3D_Truss_Analysis
+                </li>
+                <li>https://github.com/nithink27/Truss-Optimization-using-genetic-Algorithm</li>
+                <li>https://sci-hub.et-fine.com/10.1007/bf01202830</li>
+                <li>https://github.com/cmccomb/TrussMe</li>
+                <li>https://github.com/SaaadRaaa/Truss-Optimization</li>
+                <li>
+                    https://colab.research.google.com/drive/1FnDD2DxWgTAtRii4lAWxhPSnxYTGbofs?usp=sharing
+                </li>
+            </ul>
+
+           
+        <h3 class="mt-4">Necessary Elements for Reflector Antenna Design:</h3>
+    
+    <ol class="lead">
+        <li>
+            <strong>Reflector Dish:</strong>
+            <ul>
+                <li>Material</li>
+                <li>Shape (Parabolic, Cassegrain, Gregorian, etc.)</li>
+                <li>Diameter or Size</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Feed System:</strong>
+            <ul>
+                <li>Type (Horn, Dipole, Patch, etc.)</li>
+                <li>Position (Focus, Off-axis, etc.)</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Sub-Reflector (if applicable):</strong>
+            <ul>
+                <li>Material</li>
+                <li>Size</li>
+                <li>Position</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Support Structure (Truss):</strong>
+            <ul>
+                <li>Material</li>
+                <li>Configuration (Number of truss elements, arrangement)</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Mounting System:</strong>
+            <ul>
+                <li>Type (Ground mount, Pole mount, etc.)</li>
+                <li>Azimuth and Elevation Adjustment</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Antenna Feed Parameters:</strong>
+            <ul>
+                <li>Frequency of Operation</li>
+                <li>Antenna Gain</li>
+                <li>Beamwidth</li>
+                <li>Polarization (Linear, Circular)</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <h3>Parameters for Automated Design Process:</h3>
+    
+    <ol class="lead">
+        <li>
+            <strong>Antenna Geometry:</strong>
+            <ul>
+                <li>Reflector Dish Diameter</li>
+                <li>Feed System Type and Position</li>
+                <li>Sub-Reflector Size and Position</li>
+                <li>Truss Configuration</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Material Properties:</strong>
+            <ul>
+                <li>Reflector Dish Material</li>
+                <li>Truss Material</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Operating Frequency:</strong>
+            <ul>
+                <li>Frequency of Operation for the Antenna</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Performance Specifications:</strong>
+            <ul>
+                <li>Desired Gain</li>
+                <li>Beamwidth Requirements</li>
+                <li>Polarization Type</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Environmental Conditions:</strong>
+            <ul>
+                <li>Wind Load</li>
+                <li>Temperature Range</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Custom Load Inputs:</strong>
+            <ul>
+                <li>Any additional loads or constraints specific to the application</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <h3>Automation Steps:</h3>
+    
+    <ol class="lead">
+        <li>
+            <strong>Geometry Generation:</strong>
+            <ul>
+                <li>Input parameters to generate the 3D model of the antenna geometry.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Structural Analysis:</strong>
+            <ul>
+                <li>Perform finite element analysis (FEA) to analyze the structural behavior.</li>
+                <li>Consider point and surface loads on the reflector and truss elements.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Optimization:</strong>
+            <ul>
+                <li>Use optimization algorithms to find the best truss configuration for least mass and most stiffness.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Output:</strong>
+            <ul>
+                <li>Display or output the optimized design parameters.</li>
+                <li>Generate reports with structural analysis results.</li>
+            </ul>
+        </li>
+    </ol>
+
+    
+        
+        <p class="lead">
+            Remember, the specifics of the design process may vary based on the software or tools you use and the detailed requirements of your reflector antenna. This list provides a broad overview, and you may need to tailor it to your specific project.
+        </p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
