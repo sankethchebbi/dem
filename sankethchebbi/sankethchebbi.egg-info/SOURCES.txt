@@ -1,0 +1,17 @@
+LICENSE.txt
+README.md
+setup.cfg
+setup.py
+sankethchebbi/__inti__.py
+sankethchebbi/data.py
+sankethchebbi/ga.py
+sankethchebbi/generate.py
+sankethchebbi/plot.py
+sankethchebbi/truss.py
+sankethchebbi/type.py
+sankethchebbi/utils.py
+sankethchebbi.egg-info/PKG-INFO
+sankethchebbi.egg-info/SOURCES.txt
+sankethchebbi.egg-info/dependency_links.txt
+sankethchebbi.egg-info/requires.txt
+sankethchebbi.egg-info/top_level.txt
